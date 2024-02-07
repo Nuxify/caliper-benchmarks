@@ -38,3 +38,44 @@ For detailed information about using this repo with hyperledger fabric see [Hype
 ## Extending the Documented Reports
 
 The documented reports are built automatically from the `reports` branch of this repository and subsequently hosted on the `gh-pages` branch; pull requests must be target the [`reports` branch](https://github.com/hyperledger/caliper-benchmarks/tree/reports) in order for any modifications to be built.
+
+## Running a Besu QBFT Benchmark
+
+1. Install Caliper and bind Besu
+
+```sh
+npm install --only=prod @hyperledger/caliper-cli@latest
+npx caliper bind --caliper-bind-sut besu:latest
+```
+
+2. Deploy the `simple.sol` contract
+
+```solidity
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity 0.8.18;
+
+contract simple {
+    mapping(string => int) private accounts;
+
+    function open(string memory acc_id, int amount) public {
+        accounts[acc_id] = amount;
+    }
+
+    function query(string memory acc_id) public view returns (int amount) {
+        amount = accounts[acc_id];
+    }
+
+    function transfer(string memory acc_from, string memory acc_to, int amount) public {
+        accounts[acc_from] -= amount;
+        accounts[acc_to] += amount;
+    }
+}
+```
+
+3. Setup and edit `src/ethereum/config-qbft.json` and `benchmarks/scenario/simple/config-qbft.yaml`
+
+4. Run Caliper launch manager
+
+```sh
+npx caliper launch manager --caliper-benchconfig ~/caliper-benchmarks/benchmarks/scenario/simple/config-qbft.yaml --caliper-networkconfig ~/caliper-benchmarks/src/ethereum/config-qbft.json --caliper-bind-sut besu:latest --caliper-flow-skip-install
+```
