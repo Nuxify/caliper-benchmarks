@@ -1,0 +1,87 @@
+{
+    "caliper": {
+        "blockchain": "ethereum",
+        "command": {}
+    },
+    "ethereum": {
+        "url": "ws://<url>",
+        "contractDeployerAddress": "<public-address>",
+        "contractDeployerAddressPrivateKey": "0x<private-key>",
+        "fromAddress": "<public-address>",
+	"fromAddressPrivateKey": "0x<private-key>",
+        "transactionConfirmationBlocks": 2,
+        "contracts": {
+            "simple": {
+		"address": "<contract-address>",
+                "estimateGas": true,
+                "gas": {
+                    "open": 50000000,
+                    "query": 50000000,
+                    "transfer": 50000000
+                },
+                "abi": [
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "string",
+                                "name": "acc_id",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "int256",
+                                "name": "amount",
+                                "type": "int256"
+                            }
+                        ],
+                        "name": "open",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "string",
+                                "name": "acc_from",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "string",
+                                "name": "acc_to",
+                                "type": "string"
+                            },
+                            {
+                                "internalType": "int256",
+                                "name": "amount",
+                                "type": "int256"
+                            }
+                        ],
+                        "name": "transfer",
+                        "outputs": [],
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "inputs": [
+                            {
+                                "internalType": "string",
+                                "name": "acc_id",
+                                "type": "string"
+                            }
+                        ],
+                        "name": "query",
+                        "outputs": [
+                            {
+                                "internalType": "int256",
+                                "name": "amount",
+                                "type": "int256"
+                            }
+                        ],
+                        "stateMutability": "view",
+                        "type": "function"
+                    }
+                ]
+            }
+        }
+    }
+}
